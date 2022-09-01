@@ -10,6 +10,13 @@ class Service {
       method: "GET"
     })
   }
+  
+  getResident(endpoint) {
+    return fetch(endpoint, {
+      method: "GET"
+    })
+  }
+
 }
 
 export default new Service;
