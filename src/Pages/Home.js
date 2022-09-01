@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Service from '../services/Service'
-import InfoIcon from '@mui/icons-material/Info';
 import "./Home.css";
+import { useNavigate } from 'react-router-dom';
+// import InfoIcon from "/images/info.png";
 
 // default for api
 const PAGE_LIMIT = 20;
@@ -18,6 +19,7 @@ export default function Home() {
   const [totalCount, setTotalCount] = useState(0);
   const [activePage, setactivePage] = useState(1);
   const [modifiedPages, setModifiedPages] = useState([]);
+  const navigate = useNavigate();
 
   async function fetchLocations() {
     await Service.getAllLocations(activePage)
@@ -57,77 +59,86 @@ export default function Home() {
   }, [activePage])
 
   return (
-    <div className='parent' >
-      <div className="tableArea">
-        <table id="locations">
-          <thead>
-            <tr>
-              <th style={{ width: "5%" }}>#</th>
-              <th style={{ width: "35%" }}>Type</th>
-              <th style={{ width: "35%" }}>Dimension</th>
-              <th style={{ width: "20%" }}>Resident Counts</th>
-              <th style={{ width: "10%" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="body">
-            {locations && locations.data && locations.data.map((location) => (
-              <tr key={location.id}>
-                <td>{location.id}</td>
-                <td>{location.type}</td>
-                <td>{location.dimension}</td>
-                <td>{location.residents.length}</td>
-                <td id="actions">
-                  <InfoIcon id="infoIcon" />
+    <>
+      <div className='parent' >
+        <div className="tableArea">
+          <table id="locations">
+            <thead>
+              <tr>
+                <th style={{ width: "5%" }}>#</th>
+                <th style={{ width: "35%" }}>Type</th>
+                <th style={{ width: "35%" }}>Dimension</th>
+                <th style={{ width: "20%" }}>Resident Counts</th>
+                <th style={{ width: "10%" }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="body">
+              {locations && locations.data && locations.data.map((location) => (
+                <tr key={location.id}>
+                  <td>{location.id}</td>
+                  <td>{location.type}</td>
+                  <td>{location.dimension}</td>
+                  <td>{location.residents.length}</td>
+                  <td id="actions">
+                    <img
+                      id="infoIcon"
+                      src="/images/info.png"
+                      alt="my image"
+                      onClick={() => {
+                        console.log(location);
+                        navigate('/residents', { state: { id: location.id, residents: location.residents } })}
+                      } />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot id="footer">
+              <tr>
+                <td>Total Locations: {totalCount}</td>
+                <td>{(activePage - 1) * PAGE_LIMIT + 1}/{activePage * PAGE_LIMIT}</td>
+                <td>
+                  <div
+                    className='page-button'
+                    style={{ backgroundColor: activePage !== 1 ? "white" : "RGB(10,10,10,0.2)" }}
+                    onClick={() => {
+                      if (activePage !== 1) {
+                        setactivePage(activePage - 1)
+                      }
+                    }}
+                  >
+                    {'<'}
+                  </div>
+                  {modifiedPages.map((page, index) => {
+                    return (
+                      <div
+                        key={index}
+                        onClick={() => {
+                          setactivePage(page);
+                        }}
+                        className="page-button"
+                        style={{ backgroundColor: page === activePage ? "RGB(202,242,242)" : "white" }}
+                      >
+                        {page}
+                      </div>
+                    )
+                  })}
+                  <div
+                    className='page-button'
+                    style={{ backgroundColor: activePage !== numOfPage ? "white" : "RGB(100,100,100,0.1)" }}
+                    onClick={() => {
+                      if (activePage !== numOfPage) {
+                        setactivePage(activePage + 1)
+                      }
+                    }}
+                  >
+                    {'>'}
+                  </div>
                 </td>
               </tr>
-            ))}
-          </tbody>
-          <tfoot id="footer">
-            <tr>
-              <td>Total Locations: {totalCount}</td>
-              <td>{(activePage-1)*PAGE_LIMIT + 1}/{activePage*PAGE_LIMIT}</td>
-              <td>
-                <div
-                  className='page-button'
-                  style={{ backgroundColor: activePage !== 1 ? "white" : "RGB(10,10,10,0.2)" }}
-                  onClick={() => {
-                    if (activePage !== 1) {
-                      setactivePage(activePage - 1)
-                    }
-                  }}
-                >
-                  {'<'}
-                </div>
-                {modifiedPages.map((page, index) => {
-                  return (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        setactivePage(page);
-                      }}
-                      className="page-button"
-                      style={{ backgroundColor: page === activePage ? "RGB(202,242,242)" : "white" }}
-                    >
-                      {page}
-                    </div>
-                  )
-                })}
-                <div
-                  className='page-button'
-                  style={{ backgroundColor: activePage !== numOfPage ? "white" : "RGB(100,100,100,0.1)" }}
-                  onClick={() => {
-                    if (activePage !== numOfPage) {
-                      setactivePage(activePage + 1)
-                    }
-                  }}
-                >
-                  {'>'}
-                </div>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+            </tfoot>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
