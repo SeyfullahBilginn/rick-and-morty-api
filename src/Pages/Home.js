@@ -3,6 +3,7 @@ import Service from '../services/Service'
 import "./Home.css";
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
+import { usePagination } from './Contexts/PaginationContext';
 
 // default for api
 const PAGE_LIMIT = 20;
@@ -17,7 +18,12 @@ export default function Home() {
   );
   const [numOfPage, setNumOfPage] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
-  const [activePage, setactivePage] = useState(1);
+  const {
+    activePage,
+    setActivePage,
+    isInitialRender
+  } = usePagination();
+  const [isLoadingShow, setIsLoadingShow] = useState();
   const [modifiedPages, setModifiedPages] = useState([]);
   const navigate = useNavigate();
 
@@ -74,6 +80,7 @@ export default function Home() {
   }
 
   useEffect(() => {
+    setIsLoadingShow(isInitialRender)
     fetchLocations();
   }, [activePage])
 
@@ -88,8 +95,8 @@ export default function Home() {
       </React.Fragment>
     )
   }
-
-  if (locations?.isLoading) {
+  // isInitialRender prevents showing loading message when the page is change
+  if (locations?.isLoading && isLoadingShow) {
     return (
       <React.Fragment>
         <Header title="Locations" />
@@ -154,7 +161,7 @@ export default function Home() {
                     style={{ backgroundColor: activePage !== 1 ? "white" : "RGB(10,10,10,0.2)" }}
                     onClick={() => {
                       if (activePage !== 1) {
-                        setactivePage(activePage - 1)
+                        setActivePage(activePage - 1);
                       }
                     }}
                   >
@@ -165,7 +172,7 @@ export default function Home() {
                       <div
                         key={index}
                         onClick={() => {
-                          setactivePage(page);
+                          setActivePage(page);
                         }}
                         className="page-button"
                         style={{ backgroundColor: page === activePage ? "RGB(202,242,242)" : "white" }}
@@ -179,7 +186,7 @@ export default function Home() {
                     style={{ backgroundColor: activePage !== numOfPage ? "white" : "RGB(100,100,100,0.1)" }}
                     onClick={() => {
                       if (activePage !== numOfPage) {
-                        setactivePage(activePage + 1)
+                        setActivePage(activePage + 1);
                       }
                     }}
                   >

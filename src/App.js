@@ -5,6 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import routes from './routes';
+import { PaginationProvider } from './Pages/Contexts/PaginationContext';
 
 function App() {
   const getRoutes = () => routes.map(route => {
@@ -14,11 +15,13 @@ function App() {
   });
 
   return (
-    <Router>
-      <Routes>
-        {getRoutes()}
-      </Routes>
-    </Router>
+    <PaginationProvider>
+      <Router>
+        <Routes>
+          {getRoutes()}
+        </Routes>
+      </Router>
+    </PaginationProvider>
   );
 }
 
