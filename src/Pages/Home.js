@@ -11,7 +11,7 @@ export default function Home() {
   const [locations, setLocations] = useState(
     {
       isLoading: "",
-      isError: "",
+      isError: false,
       data: []
     }
   );
@@ -22,17 +22,36 @@ export default function Home() {
   const navigate = useNavigate();
 
   async function fetchLocations() {
+    setLocations({ ...locations, isLoading: true })
     await Service.getAllLocations(activePage)
       .then(res => res.json()
         .then(result => {
-          setLocations({ ...locations, data: result.results });
+          setLocations({ ...locations, data: result.results, isLoading: false });
           setNumOfPage(result.info.pages);
           setTotalCount(result.info.count);
           designPagination(result.info.pages);
         })
-        .catch(err => console.log(err))
+        .catch(error => {
+          console.error(error);
+          setLocations(
+            {
+              ...locations,
+              isLoading: false,
+              isError: true,
+            }
+          )
+        })
       )
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.error(err);
+        setLocations(
+          {
+            ...locations,
+            isLoading: false,
+            isError: true
+          }
+        )
+      });
   }
 
   function designPagination(pages) {
@@ -58,8 +77,31 @@ export default function Home() {
     fetchLocations();
   }, [activePage])
 
+
+  if (locations?.isError) {
+    return (
+      <React.Fragment>
+        <Header title="Locations" />
+        <div className="error">
+          Error occured while fetching data
+        </div>
+      </React.Fragment>
+    )
+  }
+
+  if (locations?.isLoading) {
+    return (
+      <React.Fragment>
+        <Header title="Locations" />
+        <div className="loading">
+          Loading
+        </div>
+      </React.Fragment>
+    )
+  }
+
   return (
-    <>
+    <React.Fragment>
       <Header title="Locations" />
       <div className='parent' >
         <div className="tableArea">
@@ -149,6 +191,6 @@ export default function Home() {
           </table>
         </div>
       </div>
-    </>
+    </React.Fragment>
   )
 }
