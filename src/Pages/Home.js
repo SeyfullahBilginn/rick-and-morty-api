@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Service from '../services/Service'
 import "./Home.css";
 import { useNavigate } from 'react-router-dom';
-// import InfoIcon from "/images/info.png";
+import Header from './Header';
 
 // default for api
 const PAGE_LIMIT = 20;
@@ -60,22 +60,25 @@ export default function Home() {
 
   return (
     <>
+      <Header title="Locations" />
       <div className='parent' >
         <div className="tableArea">
           <table id="locations">
             <thead>
               <tr>
                 <th style={{ width: "5%" }}>#</th>
-                <th style={{ width: "35%" }}>Type</th>
-                <th style={{ width: "35%" }}>Dimension</th>
-                <th style={{ width: "20%" }}>Resident Counts</th>
-                <th style={{ width: "10%" }}>Actions</th>
+                <th style={{ width: "25%" }}>Name</th>
+                <th style={{ width: "25%" }}>Type</th>
+                <th style={{ width: "30%" }}>Dimension</th>
+                <th style={{ width: "10%" }}>Resident Counts</th>
+                <th style={{ width: "5%" }}>Info</th>
               </tr>
             </thead>
             <tbody id="body">
               {locations && locations.data && locations.data.map((location) => (
                 <tr key={location.id}>
                   <td>{location.id}</td>
+                  <td>{location.name}</td>
                   <td>{location.type}</td>
                   <td>{location.dimension}</td>
                   <td>{location.residents.length}</td>
@@ -85,8 +88,15 @@ export default function Home() {
                       src="/images/info.png"
                       alt="my image"
                       onClick={() => {
-                        console.log(location);
-                        navigate('/residents', { state: { id: location.id, residents: location.residents } })}
+                        navigate('/residents', {
+                          state:
+                          {
+                            id: location.id,
+                            residents: location.residents,
+                            name: location.name
+                          }
+                        })
+                      }
                       } />
                   </td>
                 </tr>

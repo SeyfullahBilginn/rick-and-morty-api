@@ -5,7 +5,6 @@ import "./ResidentCard.css";
 
 export default function ResidentCard({ resident }) {
   const {name, species, type, gender, origin, status} = resident;
-
   return (
     <div id="resident">
       <div id="container">

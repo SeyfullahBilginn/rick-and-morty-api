@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Service from "../services/Service";
 import "./Residents.css";
 import ResidentCard from "./ResidentCard";
+import Header from "./Header";
 
 export default function Residents() {
   const location = useLocation();
@@ -37,10 +38,13 @@ export default function Residents() {
 
 
   return (
-    <div id="grid">
-      {
-        residents && residents.map(resident => <ResidentCard key={resident.id} resident={resident} />)
-      }
-    </div>
+    <>
+      <Header title={location.state.name} />
+      <div id="grid">
+        {
+          residents && residents.map(resident => <ResidentCard key={resident.id} resident={resident} />)
+        }
+      </div>
+    </>
   );
 }
