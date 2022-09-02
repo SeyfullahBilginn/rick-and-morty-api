@@ -7,3 +7,23 @@
   overflow-x: hidden;
   background-color: beige;
 }
+
+.error {
+  display: flex;
+  color: red;
+  font-size: large;
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.loading {
+  display: flex;
+  color: blue;
+  font-size: large;
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
