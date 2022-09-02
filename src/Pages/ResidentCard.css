@@ -1,0 +1,23 @@
+#resident {
+  font-size: 20px;
+  padding: .6em;
+  color: #fcfcfc;
+  background: #525b70;
+  border-radius: 4px;
+  box-shadow: rgb(124, 77, 255);
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  max-height: 240px;
+}
+
+#resident #container {
+  line-height: 1.2;
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 500;
+}
+
+#resident #title {
+  font-weight: 700;
+}

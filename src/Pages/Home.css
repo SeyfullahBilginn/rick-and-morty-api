@@ -1,0 +1,121 @@
+#locations {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: larger;
+  border-collapse: collapse;
+  /* width: calc(100% + 2px); */
+  display: block;
+  background-color: rgb(253, 249, 249);
+}
+#locations thead {
+
+  position: sticky;
+  height: 60px;
+  top: -1px;
+  z-index: 1;
+  background-color: #F2F3FB;
+  box-sizing: border-box;
+}
+#locations td, #locations th {
+
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#locations table {
+  overflow-x:hidden;
+}
+
+#locations tbody {
+  overflow-y: auto;
+}
+
+#body tr:hover {background-color: rgb(233, 239, 249);}
+
+
+#locations th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #a6bbff;
+  color: white;
+}
+
+#infoIcon {
+  background-color: #edfcf6;
+  border-radius: 50%;
+  padding: 4px;
+  width: 26px;
+  height: 26px;
+  color: blue;
+  cursor: pointer;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+#infoIcon:hover {background-color: #d3dfda;}
+
+#actions {
+  display: flex;
+  justify-content: center;
+}
+.parent {
+  background-color: beige;
+  height: calc(100vh - 110px);
+  padding: 20px;
+}
+
+.tableArea {
+  margin: 0 auto;
+  max-width: 2440px;
+  /* width: 1200px; */
+  height: calc(100vh - 100px);
+  overflow-x:hidden;
+  padding: 0px 4px 0px 0px;
+}
+
+#locations tfoot {
+  display: block;
+  position: sticky;
+  bottom: -1px;
+  z-index: 1;
+  background-color: #F2F3FB;
+  box-sizing: border-box;
+}
+
+#footer tr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#footer td {
+  display: flex;
+  flex-direction: row;
+  border: none;
+}
+
+#footer .page-button {
+  color: rgb(100, 100, 100, 0.6);
+  cursor: pointer;
+  margin: 4px;
+  padding: 6px;
+}
+
+.error {
+  display: flex;
+  color: red;
+  font-size: large;
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.loading {
+  display: flex;
+  color: blue;
+  font-size: large;
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
