@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-gap: 20px;
   padding: 20px;
-  height: calc(100vh - 40px);
+  height: calc(100vh - 104px);
   overflow-x: hidden;
   background-color: beige;
 }
