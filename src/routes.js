@@ -16,7 +16,7 @@ const routes = [
   {
     name: "Residents",
     key: "residents",
-    path: `${BASE_URL}/residents`,
+    path: `${BASE_URL}/residentsof-:id`,
     component: <Residents />,
   },
 ];

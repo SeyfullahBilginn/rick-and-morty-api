@@ -164,7 +164,7 @@ export default function Home() {
                     src="/images/info.png"
                     alt="my image"
                     onClick={() => {
-                      navigate('/residents', {
+                      navigate(`/residentsof-${location.id}`, {
                         state:
                         {
                           id: location.id,
@@ -173,7 +173,8 @@ export default function Home() {
                         }
                       })
                     }
-                    } />
+                    }
+                  />
                 </td>
               </tr>
             ))}
