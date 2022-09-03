@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Service from '../services/Service'
 import "./Home.css";
-import { useNavigate } from 'react-router-dom';
 import Header from '../Components/Header';
 import { usePagination } from '../Contexts/PaginationContext';
+import TableRow from '../Components/TableRow';
 
 // default for api
 const PAGE_LIMIT = 20;
@@ -28,7 +28,6 @@ export default function Home() {
     designPagination
   } = usePagination();
   const [isLoadingShow, setIsLoadingShow] = useState();
-  const navigate = useNavigate();
 
   async function fetchLocations() {
     setLocations({ ...locations, isLoading: true })
@@ -90,6 +89,55 @@ export default function Home() {
     )
   }
 
+  function renderPagination() {
+    return (
+      <tfoot id="footer">
+        <tr>
+          <td>Total Locations: {totalCount}</td>
+          <td>{(activePage - 1) * PAGE_LIMIT + 1}/{activePage * PAGE_LIMIT}</td>
+          <td>
+            <div
+              className='page-button'
+              style={{ backgroundColor: activePage !== 1 ? "white" : "RGB(10,10,10,0.2)" }}
+              onClick={() => {
+                if (activePage !== 1) {
+                  setActivePage(activePage - 1);
+                }
+              }}
+            >
+              {'<'}
+            </div>
+            {modifiedPages.map((page, index) => {
+              return (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setActivePage(page);
+                  }}
+                  className="page-button"
+                  style={{ backgroundColor: page === activePage ? "RGB(202,242,242)" : "white" }}
+                >
+                  {page}
+                </div>
+              )
+            })}
+            <div
+              className='page-button'
+              style={{ backgroundColor: activePage !== numOfPage ? "white" : "RGB(100,100,100,0.1)" }}
+              onClick={() => {
+                if (activePage !== numOfPage) {
+                  setActivePage(activePage + 1);
+                }
+              }}
+            >
+              {'>'}
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    )
+  }
+
   return (
     <React.Fragment>
       <Header title="Locations" />
@@ -108,76 +156,10 @@ export default function Home() {
             </thead>
             <tbody id="body">
               {locations && locations.data && locations.data.map((location) => (
-                <tr key={location.id}>
-                  <td>{location.id}</td>
-                  <td>{location.name}</td>
-                  <td>{location.type}</td>
-                  <td>{location.dimension}</td>
-                  <td>{location.residents.length}</td>
-                  <td id="actions">
-                    <img
-                      id="infoIcon"
-                      src="/images/info.png"
-                      alt="my image"
-                      onClick={() => {
-                        navigate('/residents', {
-                          state:
-                          {
-                            id: location.id,
-                            residents: location.residents,
-                            name: location.name
-                          }
-                        })
-                      }
-                      } />
-                  </td>
-                </tr>
+                <TableRow key={location.id} location={location} />
               ))}
             </tbody>
-            <tfoot id="footer">
-              <tr>
-                <td>Total Locations: {totalCount}</td>
-                <td>{(activePage - 1) * PAGE_LIMIT + 1}/{activePage * PAGE_LIMIT}</td>
-                <td>
-                  <div
-                    className='page-button'
-                    style={{ backgroundColor: activePage !== 1 ? "white" : "RGB(10,10,10,0.2)" }}
-                    onClick={() => {
-                      if (activePage !== 1) {
-                        setActivePage(activePage - 1);
-                      }
-                    }}
-                  >
-                    {'<'}
-                  </div>
-                  {modifiedPages.map((page, index) => {
-                    return (
-                      <div
-                        key={index}
-                        onClick={() => {
-                          setActivePage(page);
-                        }}
-                        className="page-button"
-                        style={{ backgroundColor: page === activePage ? "RGB(202,242,242)" : "white" }}
-                      >
-                        {page}
-                      </div>
-                    )
-                  })}
-                  <div
-                    className='page-button'
-                    style={{ backgroundColor: activePage !== numOfPage ? "white" : "RGB(100,100,100,0.1)" }}
-                    onClick={() => {
-                      if (activePage !== numOfPage) {
-                        setActivePage(activePage + 1);
-                      }
-                    }}
-                  >
-                    {'>'}
-                  </div>
-                </td>
-              </tr>
-            </tfoot>
+            {renderPagination()}
           </table>
         </div>
       </div>
