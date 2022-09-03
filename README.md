@@ -41,4 +41,4 @@ npm start
 ```
 
 #### References
-At this project [rick and morty api](https://rickandmortyapi.com) is used
+At this project, [rick and morty api](https://rickandmortyapi.com) is used
