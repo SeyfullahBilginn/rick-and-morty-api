@@ -2,7 +2,47 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+![dashboard-preview](https://user-images.githubusercontent.com/86732121/188273063-c5c771af-c7e8-469e-a296-a078fedcea1f.gif)
+
+
+## Development Process
+
+### `Structure`
+  I tried to use functional components. I created file named "service" for fetching datas from rick and morty api. I want to collect states widely used (not only for only this project, but also for a large scale project) in contexts which are pagination context and layout context. I wanted to design an algorithm for different versions of pagination (left-aligned, middle aligned, right aligned) as seen below:
+  
+(rick and morty api doesn't have more than 7 pages. If it had more than 7 pages, it would look like this)
+![pagination-preview](https://user-images.githubusercontent.com/86732121/188273094-e6cd2585-890d-4435-a2d9-ccc46c4f9154.gif)
+
+I decided to display page variable in url.For that reason, I used [url object](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) . Thus, users can send the link to share the page they monitor.
+
+## 🛠️ Installation Steps
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/rahuldkjain/github-profile-readme-generator.git
+```
+
+2. Change the working directory
+
+```bash
+cd github-profile-readme-generator
+```
+
+3. Install dependencies
+
+```bash
+npm install
+```
+
+4. Run the app
+
+```bash
+npm start
+```
+
 ## Available Scripts
+
 
 In the project directory, you can run:
 
