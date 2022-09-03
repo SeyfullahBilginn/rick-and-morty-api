@@ -5,7 +5,7 @@ import {
   Route
 } from "react-router-dom";
 import routes from './routes';
-import { PaginationProvider } from './Pages/Contexts/PaginationContext';
+import { PaginationProvider } from './Contexts/PaginationContext';
 
 function App() {
   const getRoutes = () => routes.map(route => {
