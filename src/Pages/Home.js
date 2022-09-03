@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Service from '../services/Service'
 import "./Home.css";
-import Header from '../Components/Header';
+import { useNavigate } from 'react-router-dom';
 import { usePagination } from '../Contexts/PaginationContext';
-import TableRow from '../Components/TableRow';
+import { useLayout } from '../Contexts/LayoutContext';
 
 // default for api
 const PAGE_LIMIT = 20;
@@ -27,7 +27,10 @@ export default function Home() {
     modifiedPages,
     designPagination
   } = usePagination();
+
+  const { setHeaderTitle } = useLayout();
   const [isLoadingShow, setIsLoadingShow] = useState();
+  const navigate = useNavigate();
 
   async function fetchLocations() {
     setLocations({ ...locations, isLoading: true })
@@ -63,31 +66,10 @@ export default function Home() {
   }
 
   useEffect(() => {
+    setHeaderTitle("Locations")
     setIsLoadingShow(isInitialRender)
     fetchLocations();
   }, [activePage])
-
-  if (locations?.isError) {
-    return (
-      <React.Fragment>
-        <Header title="Locations" />
-        <div className="error">
-          Error occured while fetching data
-        </div>
-      </React.Fragment>
-    )
-  }
-  // isInitialRender prevents showing loading message when the page is change
-  if (locations?.isLoading && isLoadingShow) {
-    return (
-      <React.Fragment>
-        <Header title="Locations" />
-        <div className="loading">
-          Loading
-        </div>
-      </React.Fragment>
-    )
-  }
 
   function renderPagination() {
     return (
@@ -138,31 +120,67 @@ export default function Home() {
     )
   }
 
-  return (
-    <React.Fragment>
-      <Header title="Locations" />
-      <div className='parent' >
-        <div className="tableArea">
-          <table id="locations">
-            <thead>
-              <tr>
-                <th style={{ width: "5%" }}>#</th>
-                <th style={{ width: "25%" }}>Name</th>
-                <th style={{ width: "25%" }}>Type</th>
-                <th style={{ width: "30%" }}>Dimension</th>
-                <th style={{ width: "10%" }}>Resident Counts</th>
-                <th style={{ width: "5%" }}>Info</th>
-              </tr>
-            </thead>
-            <tbody id="body">
-              {locations && locations.data && locations.data.map((location) => (
-                <TableRow key={location.id} location={location} />
-              ))}
-            </tbody>
-            {renderPagination()}
-          </table>
-        </div>
+  if (locations?.isError) {
+    return (
+      <div className="error">
+        Error occured while fetching data
       </div>
-    </React.Fragment>
+    )
+  }
+  // isLoadingShow prevents showing loading message when the active page is change
+  if (locations?.isLoading && isLoadingShow) {
+    return (
+      <div className="loading">
+        Loading
+      </div>
+    )
+  }
+
+  return (
+    <div className='parent' >
+      <div className="tableArea">
+        <table id="locations">
+          <thead>
+            <tr>
+              <th style={{ width: "5%" }}>#</th>
+              <th style={{ width: "25%" }}>Name</th>
+              <th style={{ width: "25%" }}>Type</th>
+              <th style={{ width: "30%" }}>Dimension</th>
+              <th style={{ width: "10%" }}>Resident Counts</th>
+              <th style={{ width: "5%" }}>Info</th>
+            </tr>
+          </thead>
+          <tbody id="body">
+            {locations && locations.data && locations.data.map((location) => (
+              <tr key={location.id}>
+                <td>{location.id}</td>
+                <td>{location.name}</td>
+                <td>{location.type}</td>
+                <td>{location.dimension}</td>
+                <td>{location.residents.length}</td>
+                <td id="actions">
+                  <img
+                    id="infoIcon"
+                    src="/images/info.png"
+                    alt="my image"
+                    onClick={() => {
+                      navigate('/residents', {
+                        state:
+                        {
+                          id: location.id,
+                          residents: location.residents,
+                          name: location.name
+                        }
+                      })
+                    }
+                    } />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          {renderPagination()}
+        </table>
+      </div>
+    </div>
   )
 }
