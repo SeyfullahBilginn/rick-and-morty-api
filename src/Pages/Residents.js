@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Service from "../services/Service";
 import "./Residents.css";
-import ResidentCard from "./ResidentCard";
-import Header from "./Header";
+import ResidentCard from "../Components/ResidentCard";
+import Header from "../Components/Header";
 
 export default function Residents() {
   const location = useLocation();
