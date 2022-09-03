@@ -1,10 +1,11 @@
-import { shape, string } from "prop-types";
+import { shape, string, oneOf } from "prop-types";
 import React from 'react'
 import { statusColors } from '../constants';
 import "./ResidentCard.css";
 
 export default function ResidentCard({ resident }) {
   const {name, species, type, gender, origin, status} = resident;
+
   return (
     <div id="resident">
       <div id="container">
@@ -59,7 +60,7 @@ ResidentCard.propTypes = {
       name: string,
       url: string
     }),
-    status: string
+    status: oneOf(["unknown","Dead","Alive"])
   })
 }
 
