@@ -4,13 +4,10 @@ body {
   margin: 0;
 }
 
-
-
 .container {
   display: flex;
   flex-direction: row;
   padding: 2px;
-  /* width: ; */
   text-align: center;
   background: #1c286b;
   color: white;
@@ -33,6 +30,7 @@ body {
   text-decoration: none;
   color:white;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .center {
@@ -40,4 +38,5 @@ body {
   text-align: center;
   align-self: center;
   text-transform: uppercase;
+  font-weight: 600;
 }

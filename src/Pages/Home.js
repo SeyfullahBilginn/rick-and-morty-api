@@ -16,15 +16,18 @@ export default function Home() {
       data: []
     }
   );
-  const [numOfPage, setNumOfPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
   const {
     activePage,
     setActivePage,
-    isInitialRender
+    isInitialRender,
+    numOfPage,
+    setNumOfPage,
+    totalCount,
+    setTotalCount,
+    modifiedPages,
+    designPagination
   } = usePagination();
   const [isLoadingShow, setIsLoadingShow] = useState();
-  const [modifiedPages, setModifiedPages] = useState([]);
   const navigate = useNavigate();
 
   async function fetchLocations() {
@@ -60,30 +63,10 @@ export default function Home() {
       });
   }
 
-  function designPagination(pages) {
-    var designedPagination = [];
-    if (pages > 7) {
-      if ((activePage - 1 > 3) && pages - activePage > 3) {
-        // middle
-        designedPagination = [1, '...', activePage - 1, activePage, activePage + 1, '...', pages];
-      } else if (activePage - 1 <= 3) {
-        // aligned left
-        designedPagination = [1, 2, 3, 4, 5, '...', pages];
-      } else {
-        // aligned right
-        designedPagination = [1, '...', pages - 4, pages - 3, pages - 2, pages - 1, pages];
-      }
-    } else {
-      designedPagination = Array.from({ length: pages }, (_, i) => i + 1);
-    }
-    setModifiedPages(designedPagination);
-  }
-
   useEffect(() => {
     setIsLoadingShow(isInitialRender)
     fetchLocations();
   }, [activePage])
-
 
   if (locations?.isError) {
     return (

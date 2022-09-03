@@ -15,7 +15,7 @@ export default function Residents() {
     }
   );
 
-  async function get(url) {
+  async function fetchResident(url) {
     Service.getResident(url)
       .then(res => res.json()
         .then(result => {
@@ -47,11 +47,10 @@ export default function Residents() {
   }
 
   async function requestAll() {
-    return await Promise.all(location.state.residents.forEach(async url => {
+    return await Promise.all(location.state.residents.map(async url => {
       try {
-        return await get(url);
+        return await fetchResident(url);
       } catch (err) {
-        console.log(err)
         setResidents(
           {
             ...residents,
@@ -63,7 +62,6 @@ export default function Residents() {
   }
 
   useEffect(() => {
-    // fetchResidents();
     requestAll();
   }, [])
 
