@@ -6,7 +6,9 @@ export default function Header({ title }) {
   return (
     <div className="container">
       <a className="left" href='/'>
-        Rick and Morty Api
+        <p className="left-text">
+          Rick and Morty Api
+        </p>
       </a>
       <div className="center">
         {title}
