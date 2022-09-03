@@ -11,6 +11,8 @@
 .error {
   display: flex;
   color: red;
+  background-color: beige;
+  height: calc(100vh - 104px);
   font-size: large;
   font-weight: bolder;
   justify-content: center;
@@ -21,6 +23,19 @@
 .loading {
   display: flex;
   color: blue;
+  background-color: beige;
+  height: calc(100vh - 104px);
+  font-size: large;
+  font-weight: bolder;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.no-data-found {
+  display: flex;
+  background-color: beige;
+  height: calc(100vh - 104px);
+  color: black;
   font-size: large;
   font-weight: bolder;
   justify-content: center;
