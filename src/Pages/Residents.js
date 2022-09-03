@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Service from "../services/Service";
 import "./Residents.css";
 import ResidentCard from "../Components/ResidentCard";
-import Header from "../Components/Header";
+import { useLayout } from "../Contexts/LayoutContext";
 
 export default function Residents() {
   const location = useLocation();
@@ -15,6 +15,7 @@ export default function Residents() {
       isLoading: true
     }
   );
+  const { setHeaderTitle } = useLayout();
 
   async function fetchResident(url) {
     Service.getResident(url)
@@ -71,50 +72,39 @@ export default function Residents() {
   }
 
   useEffect(() => {
+    setHeaderTitle(location.state.name)
     requestAll();
   }, [])
 
   if (residents?.isError) {
     return (
-      <React.Fragment>
-        <Header title={location.state.name} />
-        <div className="error">
-          Error occured while fetching data
-        </div>
-      </React.Fragment>
+      <div className="error">
+        Error occured while fetching data
+      </div>
     )
   }
 
   if (residents?.isLoading) {
     return (
-      <React.Fragment>
-        <Header title={location.state.name} />
-        <div className="loading">
-          Loading
-        </div>
-      </React.Fragment>
+      <div className="loading">
+        Loading
+      </div>
     )
   }
 
   if (residents?.data?.length === 0) {
     return (
-      <React.Fragment>
-        <Header title={location.state.name} />
-        <div className="no-data-found">
-          There are no resident
-        </div>
-      </React.Fragment>
+      <div className="no-data-found">
+        There are no resident
+      </div>
     )
   }
 
   return (
-    <React.Fragment>
-      <Header title={location.state.name} />
-      <div id="grid">
-        {
-          residents && residents.data && residents.data.map(resident => <ResidentCard key={resident.id} resident={resident} />)
-        }
-      </div>
-    </React.Fragment>
+    <div id="grid">
+      {
+        residents && residents.data && residents.data.map(resident => <ResidentCard key={resident.id} resident={resident} />)
+      }
+    </div>
   );
 }

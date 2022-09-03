@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -6,6 +7,7 @@ import {
 } from "react-router-dom";
 import routes from './routes';
 import { PaginationProvider } from './Contexts/PaginationContext';
+import { LayoutProvider } from './Contexts/LayoutContext';
 
 function App() {
   const getRoutes = () => routes.map(route => {
@@ -16,11 +18,13 @@ function App() {
 
   return (
     <PaginationProvider>
-      <Router>
-        <Routes>
-          {getRoutes()}
-        </Routes>
-      </Router>
+      <LayoutProvider>
+        <Router>
+          <Routes>
+            {getRoutes()}
+          </Routes>
+        </Router>
+      </LayoutProvider>
     </PaginationProvider>
   );
 }
