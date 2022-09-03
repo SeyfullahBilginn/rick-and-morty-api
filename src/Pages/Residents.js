@@ -11,7 +11,8 @@ export default function Residents() {
   const [residents, setResidents] = useState(
     {
       data: [],
-      isError: false
+      isError: false,
+      isLoading: true
     }
   );
 
@@ -30,7 +31,8 @@ export default function Residents() {
           setResidents(
             {
               ...residents,
-              isError: true
+              isError: true,
+              isLoading: false
             }
           )
         })
@@ -40,16 +42,20 @@ export default function Residents() {
         setResidents(
           {
             ...residents,
-            isError: true
+            isError: true,
+            isLoading: false
           }
         )
-      });
+      })
+      .finally(() => {
+        setResidents(prevState => ({ ...prevState, isLoading: false }));
+      })
   }
 
   async function requestAll() {
-    return await Promise.all(location.state.residents.map(async url => {
+    await Promise.all(location.state.residents.map(async url => {
       try {
-        return await fetchResident(url);
+        await fetchResident(url)
       } catch (err) {
         setResidents(
           {
@@ -58,7 +64,10 @@ export default function Residents() {
           }
         )
       }
-    }));
+    }))
+    if (location.state.residents.length === 0) {
+      setResidents({ ...residents, isLoading: false });
+    }
   }
 
   useEffect(() => {
@@ -76,14 +85,36 @@ export default function Residents() {
     )
   }
 
+  if (residents?.isLoading) {
+    return (
+      <React.Fragment>
+        <Header title={location.state.name} />
+        <div className="loading">
+          Loading
+        </div>
+      </React.Fragment>
+    )
+  }
+
+  if (residents?.data?.length === 0) {
+    return (
+      <React.Fragment>
+        <Header title={location.state.name} />
+        <div className="no-data-found">
+          There are no resident
+        </div>
+      </React.Fragment>
+    )
+  }
+
   return (
-    <>
+    <React.Fragment>
       <Header title={location.state.name} />
       <div id="grid">
         {
           residents && residents.data && residents.data.map(resident => <ResidentCard key={resident.id} resident={resident} />)
         }
       </div>
-    </>
+    </React.Fragment>
   );
 }
